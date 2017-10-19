@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WalkDogV1</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_mapa_passeador">Map</string>
+</resources>
