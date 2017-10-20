@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:configChanges="orientation"
+    android:screenOrientation="portrait"
     tools:context="com.faculdadedombosco.eduardopinheiro.walkdogv1.NovoPasseioActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -29,8 +31,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:backgroundTint="@android:color/darker_gray"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:onClick="irParaMapaPasseador"/>
+        android:onClick="irParaMapaPasseador"
+        app:backgroundTint="@color/colorPrimary"
+        app:srcCompat="@drawable/dog_walk" />
 
 </android.support.design.widget.CoordinatorLayout>

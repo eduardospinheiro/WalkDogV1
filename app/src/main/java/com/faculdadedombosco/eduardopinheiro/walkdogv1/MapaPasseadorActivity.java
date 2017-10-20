@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -20,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapaPasseadorActivity extends FragmentActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -103,7 +106,7 @@ public class MapaPasseadorActivity extends FragmentActivity implements
 
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(1000); // Update location every second
+        mLocationRequest.setInterval(30000); // Update location every second
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -117,6 +120,40 @@ public class MapaPasseadorActivity extends FragmentActivity implements
         }
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
+
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        LatLng localizacao = new LatLng(mLocation.getLatitude(),mLocation.getLongitude());
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(localizacao)
+                .zoom(17)
+                .build();
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//        mLocationView.setText("Location received: " + location.toString());
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+//        localizacao = new LatLng(-30.007171, -51.186850);
+//        cameraPosition = new CameraPosition.Builder()
+//                .target(localizacao)
+//                .zoom(18)
+//                .build();
+//        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.addMarker(new MarkerOptions()
+                .position(new LatLng(-30.007171, -51.186850))
+                .title("Cachorrinho"));
+
     }
 
     @Override
@@ -131,25 +168,18 @@ public class MapaPasseadorActivity extends FragmentActivity implements
 
     @Override
     public void onLocationChanged(Location location) {
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-30.0076023,-51.1867329);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+
+    }
+
+
+
+    public void buscarCachorro(View view) {
+        Button btnEntregarBuscar = (Button) view.findViewById(R.id.btnBuscarEntregar);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        Location mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        LatLng sydney = new LatLng(mLocation.getLatitude(),mLocation.getLongitude());
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(sydney)
-                .zoom(20)
-                .build();
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//        mLocationView.setText("Location received: " + location.toString());
+        btnEntregarBuscar.setText("ENTREGUEI O CÃO");
     }
 }
