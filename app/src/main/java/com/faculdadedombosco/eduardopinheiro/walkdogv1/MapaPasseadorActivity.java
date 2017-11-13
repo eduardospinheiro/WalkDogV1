@@ -1,8 +1,8 @@
 package com.faculdadedombosco.eduardopinheiro.walkdogv1;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -106,7 +106,7 @@ public class MapaPasseadorActivity extends FragmentActivity implements
 
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setInterval(30000); // Update location every second
+//        mLocationRequest.setInterval(30000); // Update location every second
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -139,11 +139,11 @@ public class MapaPasseadorActivity extends FragmentActivity implements
                 .build();
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 //        mLocationView.setText("Location received: " + location.toString());
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 //        localizacao = new LatLng(-30.007171, -51.186850);
 //        cameraPosition = new CameraPosition.Builder()
 //                .target(localizacao)
@@ -180,6 +180,13 @@ public class MapaPasseadorActivity extends FragmentActivity implements
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        btnEntregarBuscar.setText("ENTREGUEI O CÃO");
+
+        if (btnEntregarBuscar.getText().equals("BUSQUEI O CÃO")) {
+            btnEntregarBuscar.setText("ENTREGUEI O CÃO");
+        }
+
+
+        Intent intent = new Intent(this, AvaliacaoPasseioActivity.class);
+        startActivity(intent);
     }
 }
